@@ -1,0 +1,20 @@
+{
+    "name": "assetrinc",
+    "preferGlobal": false,
+    "description": "Lstr\\Assetrinc Source",
+    "keywords": [
+        "lightster",
+        "assentric",
+        "php",
+        "assets"
+    ],
+    "dependencies" : {
+        "coffee-script" :  "1.7.x",
+        "uglify-js"     :  "2.4.x",
+        "uglifycss"     :  "0.0.8"
+    },
+    "license": "MIT",
+    "engines": {
+        "node": ">=0.6"
+    }
+}

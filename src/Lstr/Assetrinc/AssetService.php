@@ -47,8 +47,8 @@ class AssetService
 
     public function __construct($paths, array $options)
     {
-        if ($path instanceof ArrayObject) {
-            $path = $path->getArrayCopy();
+        if ($paths instanceof ArrayObject) {
+            $paths = $paths->getArrayCopy();
         }
 
         $this->path       = $paths;

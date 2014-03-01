@@ -10,7 +10,7 @@
     "homepage": "http://github.com/lightster/assetrinc",
     "autoload": {
         "psr-0": {
-            "Lidsys\\": "src/"
+            "Lstr\\Assetrinc\\": "src/"
         }
     },
     "require": {

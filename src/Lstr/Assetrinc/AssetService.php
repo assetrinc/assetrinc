@@ -12,6 +12,8 @@ namespace Lstr\Assetrinc;
 
 use ArrayObject;
 
+use Lstr\Assetrinc\TagRendererManager;
+
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\Filter\CoffeeScriptFilter;
@@ -26,7 +28,7 @@ class AssetService
 {
     private $url_prefix;
     private $path;
-    private $renderers;
+    private $tag_renderer_manager;
     private $options;
 
     private $sprocketeer;
@@ -43,16 +45,21 @@ class AssetService
 
 
 
-    public function __construct($path, $renderers, array $options)
+    public function __construct($path, array $options)
     {
         if ($path instanceof ArrayObject) {
             $path = $path->getArrayCopy();
         }
 
         $this->path       = $path;
-        $this->renderers  = $renderers;
         $this->options    = $options;
         $this->url_prefix = $this->options['assetrinc.url_prefix'];
+
+        if (!empty($options['tag_renderer_manager'])) {
+            $this->tag_renderer_manager = $options['tag_renderer_manager'];
+        } else {
+            $this->tag_renderer_manager = new TagRendererManager();
+        }
     }
 
 
@@ -74,7 +81,7 @@ class AssetService
     {
         $manifest_parser = $this->getSprocketeer();
 
-        $renderer = $this->renderers[$type];
+        $renderer = $this->tag_renderer_manager->getRenderer($type);
 
         if ($this->options['debug']) {
             $files = $manifest_parser->getPathInfoFromManifest($name);

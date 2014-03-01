@@ -45,13 +45,13 @@ class AssetService
 
 
 
-    public function __construct($path, array $options)
+    public function __construct($paths, array $options)
     {
         if ($path instanceof ArrayObject) {
             $path = $path->getArrayCopy();
         }
 
-        $this->path       = $path;
+        $this->path       = $paths;
         $this->options    = $options;
         $this->url_prefix = $this->options['assetrinc.url_prefix'];
 

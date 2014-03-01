@@ -45,15 +45,15 @@ class AssetService
 
 
 
-    public function __construct($paths, array $options)
+    public function __construct($paths, $url_prefix, array $options)
     {
         if ($paths instanceof ArrayObject) {
             $paths = $paths->getArrayCopy();
         }
 
         $this->path       = $paths;
+        $this->url_prefix = $url_prefix;
         $this->options    = $options;
-        $this->url_prefix = $this->options['assetrinc.url_prefix'];
 
         if (!empty($options['tag_renderer_manager'])) {
             $this->tag_renderer_manager = $options['tag_renderer_manager'];

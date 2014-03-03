@@ -53,13 +53,34 @@ class AssetService
 
         $this->path       = $paths;
         $this->url_prefix = $url_prefix;
-        $this->options    = $options;
 
         if (!empty($options['tag_renderer_manager'])) {
             $this->tag_renderer_manager = $options['tag_renderer_manager'];
         } else {
             $this->tag_renderer_manager = new TagRendererManager();
         }
+
+        if (empty($options['node_modules']['path'])) {
+            $options['node_modules']['path'] = __DIR__ . "/../../../../../../node_modules";
+        }
+
+        if (empty($options['filters'])) {
+            $options['filters'] = array();
+        }
+
+        $node_modules = $options['node_modules']['path'];
+        $options['filters'] = array_replace_recursive(
+            array(
+                'node_modules' => array(
+                    'coffee'     => "{$node_modules}/coffee-script/bin/coffee",
+                    'uglify_js'  => "{$node_modules}/uglify-js/bin/uglifyjs",
+                    'uglify_css' => "{$node_modules}/uglifycss/uglifycss",
+                ),
+            ),
+            $options['filters']
+        );
+
+        $this->options    = $options;
     }
 
 
@@ -154,13 +175,12 @@ class AssetService
     {
         $assets   = $this->getAssetsPathInfo($name);
 
-        $binaries = $this->options['assetrinc.binaries'];
-
-        $filters = array(
-            'coffee' => new CoffeeScriptFilter($binaries['coffee']),
-            'uglifyJs' => new UglifyJs2Filter($binaries['uglifyJs']),
-            'cssUrls' => new CssRewriteFilter(),
-            'uglifyCss' => new UglifyCssFilter($binaries['uglifyCss']),
+        $node_modules = $this->options['filters']['node_modules'];
+        $filters      = array(
+            'coffee'     => new CoffeeScriptFilter($node_modules['coffee']),
+            'css_urls'   => new CssRewriteFilter(),
+            'uglify_js'  => new UglifyJs2Filter($node_modules['uglify_js']),
+            'uglify_css' => new UglifyCssFilter($node_modules['uglify_css']),
         );
 
         $filter_names_by_ext = array(
@@ -168,11 +188,11 @@ class AssetService
                 'coffee',
             ),
             'js' => array(
-                '?uglifyJs',
+                '?uglify_js',
             ),
             'css' => array(
-                'cssUrls',
-                '?uglifyCss',
+                'css_urls',
+                '?uglify_css',
             ),
         );
 

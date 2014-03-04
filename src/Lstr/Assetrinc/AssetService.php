@@ -12,15 +12,11 @@ namespace Lstr\Assetrinc;
 
 use ArrayObject;
 
+use Lstr\Assetrinc\FilterManager;
 use Lstr\Assetrinc\TagRendererManager;
 
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
-use Assetic\Filter\CoffeeScriptFilter;
-use Assetic\Filter\CssRewriteFilter;
-use Assetic\Filter\UglifyCssFilter;
-use Assetic\Filter\UglifyJs2Filter;
-use Assetic\FilterManager;
 use Sprocketeer\Parser as SprocketeerParser;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,6 +25,7 @@ class AssetService
     private $url_prefix;
     private $path;
     private $tag_renderer_manager;
+    private $filter_manager;
     private $options;
 
     private $sprocketeer;
@@ -53,34 +50,19 @@ class AssetService
 
         $this->path       = $paths;
         $this->url_prefix = $url_prefix;
+        $this->options    = $options;
+
+        if (!empty($options['filter_manager'])) {
+            $this->filter_manager = $options['fitler_manager'];
+        } else {
+            $this->filter_manager = new FilterManager($options);
+        }
 
         if (!empty($options['tag_renderer_manager'])) {
             $this->tag_renderer_manager = $options['tag_renderer_manager'];
         } else {
             $this->tag_renderer_manager = new TagRendererManager();
         }
-
-        if (empty($options['node_modules']['path'])) {
-            $options['node_modules']['path'] = __DIR__ . "/../../../../../../node_modules";
-        }
-
-        if (empty($options['filters'])) {
-            $options['filters'] = array();
-        }
-
-        $node_modules = $options['node_modules']['path'];
-        $options['filters'] = array_replace_recursive(
-            array(
-                'node_modules' => array(
-                    'coffee'     => "{$node_modules}/coffee-script/bin/coffee",
-                    'uglify_js'  => "{$node_modules}/uglify-js/bin/uglifyjs",
-                    'uglify_css' => "{$node_modules}/uglifycss/uglifycss",
-                ),
-            ),
-            $options['filters']
-        );
-
-        $this->options    = $options;
     }
 
 
@@ -175,53 +157,15 @@ class AssetService
     {
         $assets   = $this->getAssetsPathInfo($name);
 
-        $node_modules = $this->options['filters']['node_modules'];
-        $filters      = array(
-            'coffee'     => new CoffeeScriptFilter($node_modules['coffee']),
-            'css_urls'   => new CssRewriteFilter(),
-            'uglify_js'  => new UglifyJs2Filter($node_modules['uglify_js']),
-            'uglify_css' => new UglifyCssFilter($node_modules['uglify_css']),
-        );
-
-        $filter_names_by_ext = array(
-            'coffee' => array(
-                'coffee',
-            ),
-            'js' => array(
-                '?uglify_js',
-            ),
-            'css' => array(
-                'css_urls',
-                '?uglify_css',
-            ),
-        );
-
-        $filters_by_ext = array();
-        foreach ($filter_names_by_ext as $ext => $filter_names) {
-            foreach ($filter_names as $filter_name) {
-                $filter = null;
-                if (substr($filter_name, 0, 1) === '?') {
-                    if (!$this->options['debug']) {
-                        $filter = $filters[substr($filter_name, 1)];
-                    }
-                } else {
-                    $filter = $filters[$filter_name];
-                }
-
-                if ($filter) {
-                    $filters_by_ext[$ext][$filter_name] = $filter;
-                }
-            }
-        }
-
         $asset_list = array();
         foreach ($assets as $asset) {
             $extensions = explode('.', basename($asset['requested_asset']));
 
             $filters = array();
             foreach (array_reverse($extensions) as $ext) {
-                if (array_key_exists($ext, $filters_by_ext)) {
-                    $filters = array_merge($filters, $filters_by_ext[$ext]);
+                $filters_by_ext = $this->filter_manager->getFiltersByExtension($ext);
+                if ($filters_by_ext) {
+                    $filters = array_merge($filters, $filters_by_ext);
                 }
             }
 

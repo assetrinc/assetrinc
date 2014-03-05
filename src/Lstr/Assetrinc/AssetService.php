@@ -26,6 +26,7 @@ class AssetService
     private $path;
     private $tag_renderer_manager;
     private $filter_manager;
+    private $content_type_manager;
     private $options;
 
     private $sprocketeer;
@@ -62,6 +63,12 @@ class AssetService
             $this->tag_renderer_manager = $options['tag_renderer_manager'];
         } else {
             $this->tag_renderer_manager = new TagRendererManager();
+        }
+
+        if (!empty($options['content_type_manager'])) {
+            $this->content_type_manager = $options['content_type_manager'];
+        } else {
+            $this->content_type_manager = new FilterManager($options);
         }
     }
 
@@ -137,18 +144,9 @@ class AssetService
 
 
 
-    private function getContentTypeForFileName($name)
+    public function getContentTypeForFileName($name)
     {
-        $extensions = explode('.', basename($name));
-        $extension  = null;
-        foreach ($extensions as $ext) {
-            if (isset($this->content_types[$ext])) {
-                $extension = $ext;
-                break;
-            }
-        }
-
-        return $this->content_types["{$extension}"];
+        return $this->content_type_manager->getContentTypeForFileName($name);
     }
 
 

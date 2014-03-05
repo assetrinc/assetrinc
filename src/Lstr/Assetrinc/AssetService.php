@@ -31,16 +31,6 @@ class AssetService
 
     private $sprocketeer;
 
-    private $content_types = array(
-        ''       => 'text/text',
-        'css'    => 'text/css',
-        'gif'    => 'image/gif',
-        'ico'    => 'image/vnd.microsoft.icon',
-        'jpg'    => 'image/jpeg',
-        'js'     => 'text/javascript',
-        'png'    => 'image/png',
-    );
-
 
 
     public function __construct($paths, $url_prefix, array $options)

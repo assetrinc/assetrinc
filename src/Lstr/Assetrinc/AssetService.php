@@ -58,7 +58,7 @@ class AssetService
         if (!empty($options['content_type_manager'])) {
             $this->content_type_manager = $options['content_type_manager'];
         } else {
-            $this->content_type_manager = new FilterManager($options);
+            $this->content_type_manager = new ContentTypeManager($options);
         }
     }
 

@@ -54,7 +54,7 @@ class AssetService
         $this->options    = $options;
 
         if (!empty($options['filter_manager'])) {
-            $this->filter_manager = $options['fitler_manager'];
+            $this->filter_manager = $options['filter_manager'];
         } else {
             $this->filter_manager = new FilterManager($options);
         }

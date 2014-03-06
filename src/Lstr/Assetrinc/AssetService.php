@@ -93,7 +93,9 @@ class AssetService
 
             $html = implode("\n", $asset_list);
         } else {
-            $html = $renderer("{$this->url_prefix}/{$name}");
+            list($search_path_name, $filename) = explode('/', $name, 2);
+            $asset = $manifest_parser->getPathInfo($search_path_name, $filename);
+            $html  = $renderer("{$this->url_prefix}/{$asset['sprocketeer_path']}");
         }
 
         return $html;
@@ -119,9 +121,8 @@ class AssetService
     {
         $manifest_parser = $this->getSprocketeer();
 
-        list($search_path_name, $filename) = explode('/', $name, 2);
-
         if ($this->options['debug']) {
+            list($search_path_name, $filename) = explode('/', $name, 2);
             $assets = array(
                 $manifest_parser->getPathInfo($search_path_name, $filename),
             );

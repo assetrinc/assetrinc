@@ -121,13 +121,13 @@ class AssetService
     {
         $manifest_parser = $this->getSprocketeer();
 
-        if (!$read_manifest) {
+        if ($read_manifest) {
+            $assets = $manifest_parser->getPathInfoFromManifest($name);
+        } else {
             list($search_path_name, $filename) = explode('/', $name, 2);
             $assets = array(
                 $manifest_parser->getPathInfo($search_path_name, $filename),
             );
-        } else {
-            $assets = $manifest_parser->getPathInfoFromManifest($name);
         }
 
         return $assets;

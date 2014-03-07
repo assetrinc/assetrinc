@@ -110,15 +110,7 @@ class AssetService
 
     private function getAssetsPathInfo($name, $read_manifest)
     {
-        $manifest_parser = $this->getSprocketeer();
-
-        if ($read_manifest) {
-            $assets = $manifest_parser->getPathInfoFromManifest($name);
-        } else {
-            $assets = array($manifest_parser->getPathInfo($name));
-        }
-
-        return $assets;
+        return $this->getSprocketeer()->getPathInfoFromManifest($name, $read_manifest);
     }
 
 

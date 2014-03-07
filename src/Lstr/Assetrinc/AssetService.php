@@ -115,10 +115,7 @@ class AssetService
         if ($read_manifest) {
             $assets = $manifest_parser->getPathInfoFromManifest($name);
         } else {
-            list($search_path_name, $filename) = explode('/', $name, 2);
-            $assets = array(
-                $manifest_parser->getPathInfo($search_path_name, $filename),
-            );
+            $assets = array($manifest_parser->getPathInfo($name));
         }
 
         return $assets;

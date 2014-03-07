@@ -17,6 +17,12 @@
         "php": ">=5.3.3",
         "kriswallsmith/assetic": "~1.1",
         "symfony/http-kernel": ">=2.3,<2.5-dev",
-        "zacharyrankin/Sprocketeer": "0.0.3"
-    }
+        "zacharyrankin/Sprocketeer": "0.0.5"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "http://github.com/zacharyrankin/Sprocketeer"
+        }
+    ]
 }

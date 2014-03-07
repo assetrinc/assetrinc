@@ -117,11 +117,11 @@ class AssetService
 
 
 
-    private function getAssetsPathInfo($name)
+    private function getAssetsPathInfo($name, $read_manifest)
     {
         $manifest_parser = $this->getSprocketeer();
 
-        if ($this->options['debug']) {
+        if (!$read_manifest) {
             list($search_path_name, $filename) = explode('/', $name, 2);
             $assets = array(
                 $manifest_parser->getPathInfo($search_path_name, $filename),
@@ -144,7 +144,7 @@ class AssetService
 
     public function getAssetContent($name)
     {
-        $assets   = $this->getAssetsPathInfo($name);
+        $assets   = $this->getAssetsPathInfo($name, !$this->options['debug']);
 
         $asset_list = array();
         foreach ($assets as $asset) {

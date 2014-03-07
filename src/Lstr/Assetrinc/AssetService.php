@@ -83,22 +83,13 @@ class AssetService
 
         $renderer = $this->tag_renderer_manager->getRenderer($type);
 
-        if ($this->options['debug']) {
-            $files = $manifest_parser->getPathInfoFromManifest($name);
-
-            $asset_list = array();
-            foreach ($files as $asset) {
-                $asset_list[] = $renderer("{$this->url_prefix}/{$asset['sprocketeer_path']}");
-            }
-
-            $html = implode("\n", $asset_list);
-        } else {
-            list($search_path_name, $filename) = explode('/', $name, 2);
-            $asset = $manifest_parser->getPathInfo($search_path_name, $filename);
-            $html  = $renderer("{$this->url_prefix}/{$asset['sprocketeer_path']}");
+        $assets    = $this->getAssetsPathInfo($name, $this->options['debug']);
+        $html_list = array();
+        foreach ($assets as $asset) {
+            $html_list[] = $renderer("{$this->url_prefix}/{$asset['sprocketeer_path']}");
         }
 
-        return $html;
+        return implode("\n", $html_list);
     }
 
 

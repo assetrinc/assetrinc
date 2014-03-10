@@ -60,6 +60,13 @@ class AssetService
         } else {
             $this->content_type_manager = new ContentTypeManager($options);
         }
+
+        $this->options = array_merge(
+            $this->options,
+            array(
+                'debug' => false,
+            )
+        );
     }
 
 

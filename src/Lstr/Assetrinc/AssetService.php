@@ -36,6 +36,13 @@ class AssetService
             $paths = $paths->getArrayCopy();
         }
 
+        $options = array_merge(
+            $options,
+            array(
+                'debug' => false,
+            )
+        );
+
         $this->path       = $paths;
         $this->url_prefix = $url_prefix;
         $this->options    = $options;
@@ -57,13 +64,6 @@ class AssetService
         } else {
             $this->content_type_manager = new ContentTypeManager($options);
         }
-
-        $this->options = array_merge(
-            $this->options,
-            array(
-                'debug' => false,
-            )
-        );
     }
 
 

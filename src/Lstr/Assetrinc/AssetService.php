@@ -12,9 +12,6 @@ namespace Lstr\Assetrinc;
 
 use ArrayObject;
 
-use Lstr\Assetrinc\FilterManager;
-use Lstr\Assetrinc\TagRendererManager;
-
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Sprocketeer\Parser as SprocketeerParser;

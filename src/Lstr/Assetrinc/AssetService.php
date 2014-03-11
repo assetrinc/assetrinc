@@ -37,10 +37,10 @@ class AssetService
         }
 
         $options = array_merge(
-            $options,
             array(
                 'debug' => false,
-            )
+            ),
+            $options
         );
 
         $this->path       = $paths;

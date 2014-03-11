@@ -119,14 +119,14 @@ class AssetService
 
 
 
-    public function getContentTypeForFileName($name)
+    public function getContentType($name)
     {
         return $this->content_type_manager->getContentTypeForFileName($name);
     }
 
 
 
-    public function getAssetContent($name)
+    public function getContent($name)
     {
         $assets   = $this->getAssetsPathInfo($name, !$this->options['debug']);
 
@@ -162,10 +162,10 @@ class AssetService
     public function getAssetResponse($name)
     {
         return new Response(
-            $this->getAssetContent($name),
+            $this->getContent($name),
             200,
             array(
-                'Content-Type' => $this->getContentTypeForFileName($name),
+                'Content-Type' => $this->getContentType($name),
             )
         );
     }

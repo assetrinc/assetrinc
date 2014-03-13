@@ -15,7 +15,6 @@ use ArrayObject;
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Sprocketeer\Parser as SprocketeerParser;
-use Symfony\Component\HttpFoundation\Response;
 
 class AssetService
 {
@@ -155,18 +154,5 @@ class AssetService
         $collection = new AssetCollection($asset_list);
 
         return $collection->dump();
-    }
-
-
-
-    public function getAssetResponse($name)
-    {
-        return new Response(
-            $this->getContent($name),
-            200,
-            array(
-                'Content-Type' => $this->getContentType($name),
-            )
-        );
     }
 }

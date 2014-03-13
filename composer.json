@@ -16,7 +16,6 @@
     "require": {
         "php": ">=5.3.3",
         "kriswallsmith/assetic": "~1.1",
-        "symfony/http-kernel": ">=2.3,<2.5-dev",
         "zacharyrankin/sprocketeer": "0.0.5"
     }
 }

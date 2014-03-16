@@ -29,8 +29,12 @@ class AssetService
 
 
 
-    public function __construct($paths, $url_prefix, array $options)
+    public function __construct($paths, $url_prefix, array $options = null)
     {
+        if (null === $options) {
+            $options = array();
+        }
+
         if ($paths instanceof ArrayObject) {
             $paths = $paths->getArrayCopy();
         }

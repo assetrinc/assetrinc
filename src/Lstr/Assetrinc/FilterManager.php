@@ -52,19 +52,21 @@ class FilterManager
         if (!isset($options['filters']['by_extension'])) {
             $options['filters']['by_extension'] = array();
         }
-        $options['filters']['by_extension'] = array_replace(array(
-            'coffee' => array(
-                'coffee',
-            ),
-            'js' => array(
-                '?uglify_js',
-            ),
-            'css' => array(
-                'css_urls',
-                '?uglify_css',
+        $options['filters']['by_extension'] = array_replace(
+            array(
+                'coffee' => array(
+                    'coffee',
+                ),
+                'js' => array(
+                    '?uglify_js',
+                ),
+                'css' => array(
+                    'css_urls',
+                    '?uglify_css',
+                ),
             ),
             $options['filters']['by_extension']
-        ));
+        );
 
         $this->initFilterFactories($options);
 

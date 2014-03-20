@@ -11,6 +11,7 @@
 namespace Lstr\Assetrinc;
 
 use ArrayObject;
+use DateTime;
 
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
@@ -138,6 +139,14 @@ class AssetService
     public function getContentType($name)
     {
         return $this->content_type_manager->getContentTypeForFileName($name);
+    }
+
+
+
+    public function getLastModified($name)
+    {
+        $asset = $this->getAssetsPathInfo($name, ($read_manifest = true));
+        return new DateTime("@{$asset[0]['last_modified']}");
     }
 
 

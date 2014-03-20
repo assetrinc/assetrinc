@@ -93,7 +93,7 @@ class AssetService
         $assets    = $this->getAssetsPathInfo($name, $this->options['debug']);
         $html_list = array();
         foreach ($assets as $asset) {
-            $html_list[] = $renderer("{$this->url_prefix}/{$asset['sprocketeer_path']}");
+            $html_list[] = $renderer($this->getPrefixedUrl($asset));
         }
 
         return implode("\n", $html_list);
@@ -117,7 +117,20 @@ class AssetService
 
     private function getAssetsPathInfo($name, $read_manifest)
     {
-        return $this->getSprocketeer()->getPathInfoFromManifest($name, $read_manifest);
+        $sprocketeer = $this->getSprocketeer();
+        $assets      = $sprocketeer->getPathInfoFromManifest($name, $read_manifest);
+
+        if (!$read_manifest) {
+            $max        = 0;
+            $all_assets = $sprocketeer->getPathInfoFromManifest($name, true);
+            foreach ($all_assets as $asset) {
+                $max = max($max, $asset['last_modified']);
+            }
+
+            $assets[0]['last_modified'] = $max;
+        }
+
+        return $assets;
     }
 
 
@@ -145,11 +158,13 @@ class AssetService
                 }
             }
 
+            $prefixed_url = $this->getPrefixedUrl($asset);
+
             $file_asset = new FileAsset(
                 $asset['absolute_path'],
                 $filters,
                 dirname($asset['absolute_path']),
-                "{$this->url_prefix}/{$asset['sprocketeer_path']}"
+                $prefixed_url
             );
 
             $asset_list[] = $file_asset;
@@ -158,5 +173,22 @@ class AssetService
         $collection = new AssetCollection($asset_list);
 
         return $collection->dump();
+    }
+
+
+
+    private function getPrefixedUrl(array $asset)
+    {
+        $url_prefix = str_replace(
+            array(
+                "{{LAST_MODIFIED}}",
+            ),
+            array(
+                $asset['last_modified'],
+            ),
+            $this->url_prefix
+        );
+
+        return "{$url_prefix}/{$asset['sprocketeer_path']}";
     }
 }

@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Symfony extends ResponseAdapter
 {
-    public function getResponse($name)
+    public function getResponse($name, array $options = array())
     {
         $service = $this->getAssetService();
         return new Response(

@@ -30,5 +30,5 @@ abstract class ResponseAdapter
 
 
 
-    abstract public function getResponse($name);
+    abstract public function getResponse($name, array $options = array());
 }

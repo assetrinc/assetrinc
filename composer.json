@@ -16,6 +16,6 @@
     "require": {
         "php": ">=5.3.3",
         "kriswallsmith/assetic": "~1.1",
-        "zacharyrankin/sprocketeer": "0.0.5"
+        "zacharyrankin/sprocketeer": "0.0.6"
     }
 }

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "ced5e12a8aa499d96129f02342e00912",
+    "hash": "0c506deb56aa54cd6379f9f312e7a51a",
     "packages": [
         {
             "name": "kriswallsmith/assetic",
@@ -174,17 +174,17 @@
             "time": "2014-02-11 13:52:09"
         },
         {
-            "name": "zacharyrankin/Sprocketeer",
-            "version": "v0.0.5",
+            "name": "zacharyrankin/sprocketeer",
+            "version": "v0.0.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/zacharyrankin/Sprocketeer.git",
-                "reference": "5920d82a4d651bbf8bb43a764fbae1f73ec769a2"
+                "url": "https://github.com/zacharyrankin/sprocketeer.git",
+                "reference": "1843978b1e2a765fe5d0ebbd8e9a8f62a963e198"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zacharyrankin/Sprocketeer/zipball/5920d82a4d651bbf8bb43a764fbae1f73ec769a2",
-                "reference": "5920d82a4d651bbf8bb43a764fbae1f73ec769a2",
+                "url": "https://api.github.com/repos/zacharyrankin/sprocketeer/zipball/1843978b1e2a765fe5d0ebbd8e9a8f62a963e198",
+                "reference": "1843978b1e2a765fe5d0ebbd8e9a8f62a963e198",
                 "shasum": ""
             },
             "require": {
@@ -201,34 +201,31 @@
                     "Sprocketeer": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Matt Light",
-                    "homepage": "https://github.com/lightster"
-                },
-                {
                     "name": "Zachary Rankin",
                     "email": "rankin.zachary@gmail.com",
                     "homepage": "https://github.com/zacharyrankin"
+                },
+                {
+                    "name": "Matt Light",
+                    "homepage": "https://github.com/lightster"
                 }
             ],
             "description": "Sprocketeer is a PHP library for getting a simple list of files from a sprocket-like manifest.",
-            "homepage": "http://github.com/zacharyrankin/Sprocketeer",
+            "homepage": "http://github.com/zacharyrankin/sprocketeer",
             "keywords": [
+                "Sprockets",
                 "asset",
                 "coffeescript",
                 "php",
-                "sass",
-                "sprockets"
+                "sass"
             ],
-            "support": {
-                "source": "https://github.com/zacharyrankin/Sprocketeer/tree/v0.0.5",
-                "issues": "https://github.com/zacharyrankin/Sprocketeer/issues"
-            },
-            "time": "2014-03-07 10:28:12"
+            "time": "2014-03-19 04:42:56"
         }
     ],
     "packages-dev": [

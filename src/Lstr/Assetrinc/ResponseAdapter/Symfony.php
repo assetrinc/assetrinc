@@ -10,6 +10,8 @@
 
 namespace Lstr\Assetrinc\ResponseAdapter;
 
+use DateTime;
+
 use Lstr\Assetrinc\ResponseAdapter;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -18,13 +20,26 @@ class Symfony extends ResponseAdapter
 {
     public function getResponse($name, array $options = array())
     {
+        $expires = new DateTime("now + 12 months");
         $service = $this->getAssetService();
-        return new Response(
-            $service->getContent($name),
+
+        $response = new Response(
+            '',
             200,
             array(
                 'Content-Type' => $service->getContentType($name),
             )
         );
+
+        $response->setLastModified($service->getLastModified($name));
+        $response->setPublic();
+
+        if (!array_key_exists('request', $options)
+            || !$response->isNotModified($options['request'])
+        ) {
+            $response->setContent($service->getContent($name));
+        }
+
+        return $response;
     }
 }

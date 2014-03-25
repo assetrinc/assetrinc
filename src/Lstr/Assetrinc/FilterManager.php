@@ -60,6 +60,9 @@ class FilterManager
                 'js' => array(
                     '?uglify_js',
                 ),
+                'scss' => array(
+                    'scssphp',
+                ),
                 'css' => array(
                     'css_urls',
                     '?uglify_css',
@@ -93,6 +96,9 @@ class FilterManager
                 $binaries = $options['node_modules']['binaries'];
 
                 return new UglifyCssFilter($binaries['uglify_css']);
+            },
+            'scssphp' => function ($options) {
+                return new ScssphpFilter();
             },
         );
     }

@@ -22,8 +22,6 @@ class ContentTypeManager
         'png'    => 'image/png',
     );
 
-
-
     public function getContentTypeForFileName($name)
     {
         $extensions = explode('.', basename($name));

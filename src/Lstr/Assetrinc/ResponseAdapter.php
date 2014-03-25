@@ -14,21 +14,15 @@ abstract class ResponseAdapter
 {
     private $service;
 
-
-
     public function __construct(AssetService $service)
     {
         $this->service = $service;
     }
 
-
-
     public function getAssetService()
     {
         return $this->service;
     }
-
-
 
     abstract public function getResponse($name, array $options = array());
 }

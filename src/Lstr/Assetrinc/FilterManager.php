@@ -73,13 +73,12 @@ class FilterManager
         $this->options = $options;
     }
 
-
-
     private function initFilterFactories(array $options)
     {
         $this->filter_factories = array(
             'coffee'     => function ($options) {
                 $binaries = $options['node_modules']['binaries'];
+
                 return new CoffeeScriptFilter($binaries['coffee']);
             },
             'css_urls'   => function ($options) {
@@ -87,16 +86,16 @@ class FilterManager
             },
             'uglify_js'  => function ($options) {
                 $binaries = $options['node_modules']['binaries'];
+
                 return new UglifyJs2Filter($binaries['uglify_js']);
             },
             'uglify_css' => function ($options) {
                 $binaries = $options['node_modules']['binaries'];
+
                 return new UglifyCssFilter($binaries['uglify_css']);
             },
         );
     }
-
-
 
     private function getFilter($name)
     {
@@ -114,8 +113,6 @@ class FilterManager
         return $this->filters[$name];
     }
 
-
-
     public function getFiltersByExtension($extension)
     {
         if (array_key_exists($extension, $this->filters_by_extension)) {
@@ -124,6 +121,7 @@ class FilterManager
 
         if (!isset($this->options['filters']['by_extension'][$extension])) {
             $this->filters_by_extension[$extension] = array();
+
             return $this->filters_by_extension[$extension];
         }
 

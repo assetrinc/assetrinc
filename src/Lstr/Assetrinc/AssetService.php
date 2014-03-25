@@ -28,8 +28,6 @@ class AssetService
 
     private $sprocketeer;
 
-
-
     public function __construct($paths, $url_prefix, array $options = null)
     {
         if (null === $options) {
@@ -70,8 +68,6 @@ class AssetService
         }
     }
 
-
-
     private function getSprocketeer()
     {
         if (null !== $this->sprocketeer) {
@@ -82,8 +78,6 @@ class AssetService
 
         return $this->sprocketeer;
     }
-
-
 
     private function generateTag($name, $type)
     {
@@ -100,21 +94,15 @@ class AssetService
         return implode("\n", $html_list);
     }
 
-
-
     public function cssTag($name)
     {
         return $this->generateTag($name, 'css');
     }
 
-
-
     public function jsTag($name)
     {
         return $this->generateTag($name, 'js');
     }
-
-
 
     private function getAssetsPathInfo($name, $read_manifest)
     {
@@ -134,22 +122,17 @@ class AssetService
         return $assets;
     }
 
-
-
     public function getContentType($name)
     {
         return $this->content_type_manager->getContentTypeForFileName($name);
     }
 
-
-
     public function getLastModified($name)
     {
         $asset = $this->getAssetsPathInfo($name, ($read_manifest = true));
+
         return new DateTime("@{$asset[0]['last_modified']}");
     }
-
-
 
     public function getContent($name)
     {
@@ -183,8 +166,6 @@ class AssetService
 
         return $collection->dump();
     }
-
-
 
     private function getPrefixedUrl(array $asset)
     {

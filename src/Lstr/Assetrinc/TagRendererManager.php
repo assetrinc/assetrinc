@@ -32,14 +32,10 @@ class TagRendererManager
         $this->renderers = $renderers;
     }
 
-
-
     public function setRenderer($type, $callable)
     {
         $this->renderers[$type] = $callable;
     }
-
-
 
     public function getRenderer($type)
     {

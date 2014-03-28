@@ -16,6 +16,7 @@ use Assetic\Filter\CoffeeScriptFilter;
 use Assetic\Filter\CssRewriteFilter;
 use Assetic\Filter\UglifyCssFilter;
 use Assetic\Filter\UglifyJs2Filter;
+use Assetic\Filter\ScssphpFilter;
 
 class FilterManager
 {

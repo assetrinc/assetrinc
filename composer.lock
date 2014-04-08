@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b440b65371e51a57e9e3785a948daef5",
+    "hash": "93af20c562e65d68468c419f84141755",
     "packages": [
         {
             "name": "kriswallsmith/assetic",
@@ -172,17 +172,17 @@
         },
         {
             "name": "symfony/process",
-            "version": "v2.4.2",
+            "version": "v2.4.3",
             "target-dir": "Symfony/Component/Process",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "c175448bac997556f8ab972908a4e14c7291fb03"
+                "reference": "c09c3b08455c35688eee3e481fdfc85518ef01d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/c175448bac997556f8ab972908a4e14c7291fb03",
-                "reference": "c175448bac997556f8ab972908a4e14c7291fb03",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/c09c3b08455c35688eee3e481fdfc85518ef01d7",
+                "reference": "c09c3b08455c35688eee3e481fdfc85518ef01d7",
                 "shasum": ""
             },
             "require": {
@@ -217,20 +217,20 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2014-02-11 13:52:09"
+            "time": "2014-03-26 11:35:33"
         },
         {
             "name": "zacharyrankin/sprocketeer",
-            "version": "v0.0.6",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zacharyrankin/sprocketeer.git",
-                "reference": "1843978b1e2a765fe5d0ebbd8e9a8f62a963e198"
+                "reference": "67848c7b5b79cedfd0ded5f3f267df4d196b9ed0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zacharyrankin/sprocketeer/zipball/1843978b1e2a765fe5d0ebbd8e9a8f62a963e198",
-                "reference": "1843978b1e2a765fe5d0ebbd8e9a8f62a963e198",
+                "url": "https://api.github.com/repos/zacharyrankin/sprocketeer/zipball/67848c7b5b79cedfd0ded5f3f267df4d196b9ed0",
+                "reference": "67848c7b5b79cedfd0ded5f3f267df4d196b9ed0",
                 "shasum": ""
             },
             "require": {
@@ -271,7 +271,7 @@
                 "php",
                 "sass"
             ],
-            "time": "2014-03-19 04:42:56"
+            "time": "2014-04-07 03:37:25"
         }
     ],
     "packages-dev": [

@@ -16,6 +16,7 @@ use Assetic\Filter\CoffeeScriptFilter;
 use Assetic\Filter\CssRewriteFilter;
 use Assetic\Filter\UglifyCssFilter;
 use Assetic\Filter\UglifyJs2Filter;
+use Assetic\Filter\ScssphpFilter;
 
 class FilterManager
 {
@@ -78,28 +79,31 @@ class FilterManager
 
     private function initFilterFactories(array $options)
     {
-        $this->filter_factories = array(
-            'coffee'     => function ($options) {
-                $binaries = $options['node_modules']['binaries'];
+        $this->filter_factories = array_replace(
+            array(
+                'coffee'     => function ($options) {
+                    $binaries = $options['node_modules']['binaries'];
 
-                return new CoffeeScriptFilter($binaries['coffee']);
-            },
-            'css_urls'   => function ($options) {
-                return new CssRewriteFilter();
-            },
-            'uglify_js'  => function ($options) {
-                $binaries = $options['node_modules']['binaries'];
+                    return new CoffeeScriptFilter($binaries['coffee']);
+                },
+                'css_urls'   => function ($options) {
+                    return new CssRewriteFilter();
+                },
+                'uglify_js'  => function ($options) {
+                    $binaries = $options['node_modules']['binaries'];
 
-                return new UglifyJs2Filter($binaries['uglify_js']);
-            },
-            'uglify_css' => function ($options) {
-                $binaries = $options['node_modules']['binaries'];
+                    return new UglifyJs2Filter($binaries['uglify_js']);
+                },
+                'uglify_css' => function ($options) {
+                    $binaries = $options['node_modules']['binaries'];
 
-                return new UglifyCssFilter($binaries['uglify_css']);
-            },
-            'scssphp' => function ($options) {
-                return new ScssphpFilter();
-            },
+                    return new UglifyCssFilter($binaries['uglify_css']);
+                },
+                'scssphp' => function ($options) {
+                    return new ScssphpFilter();
+                },
+            ),
+            $options['filter_factories']
         );
     }
 

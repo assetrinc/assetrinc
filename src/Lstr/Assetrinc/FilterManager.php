@@ -79,6 +79,10 @@ class FilterManager
 
     private function initFilterFactories(array $options)
     {
+        if (empty($options['filter_factories'])) {
+            $options['filter_factories'] = array();
+        }
+
         $this->filter_factories = array_replace(
             array(
                 'coffee'     => function ($options) {

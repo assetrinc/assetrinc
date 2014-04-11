@@ -1,6 +1,6 @@
 <?php
 /*
- * Lstr/Assetrinc source code
+ * Assetrinc source code
  *
  * Copyright Matt Light <matt.light@lightdatasys.com>
  *
@@ -8,11 +8,11 @@
  * that is distributed with this source code.
  */
 
-namespace Lstr\Assetrinc\ResponseAdapter;
+namespace Assetrinc\ResponseAdapter;
 
 use DateTime;
 
-use Lstr\Assetrinc\ResponseAdapter;
+use Assetrinc\ResponseAdapter;
 
 use Symfony\Component\HttpFoundation\Response;
 

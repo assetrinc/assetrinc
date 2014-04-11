@@ -1,6 +1,6 @@
 <?php
 /*
- * Lstr/Assetrinc source code
+ * Assetrinc source code
  *
  * Copyright Matt Light <matt.light@lightdatasys.com>
  *
@@ -8,7 +8,7 @@
  * that is distributed with this source code.
  */
 
-namespace Lstr\Assetrinc;
+namespace Assetrinc;
 
 abstract class ResponseAdapter
 {

@@ -1,13 +1,12 @@
 {
-    "name": "lightster/assetrinc",
+    "name": "assetrinc/assetrinc",
     "description": "An unusually simple way to include assets",
     "keywords": [
-        "lightster",
         "assentric",
         "php",
         "assets"
     ],
-    "homepage": "http://github.com/lightster/assetrinc",
+    "homepage": "http://github.com/assetrinc/assetrinc",
     "autoload": {
         "psr-0": {
             "Assetrinc\\": "src/"

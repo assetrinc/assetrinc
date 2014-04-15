@@ -35,4 +35,9 @@ class ContentTypeManager
 
         return $this->content_types["{$extension}"];
     }
+
+    public function setContentTypeForExtension($extension, $content_type)
+    {
+        $this->content_types[$extension] = $content_type;
+    }
 }

@@ -181,4 +181,19 @@ class AssetService
 
         return "{$url_prefix}/{$asset['sprocketeer_path']}";
     }
+
+    public function getTagRendererManager()
+    {
+        return $this->tag_renderer_manager;
+    }
+
+    public function getFilterManager()
+    {
+        return $this->filter_manager;
+    }
+
+    public function getContentTypeManager()
+    {
+        return $this->content_type_manager;
+    }
 }

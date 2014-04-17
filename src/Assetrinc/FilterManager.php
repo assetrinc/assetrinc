@@ -41,9 +41,9 @@ class FilterManager
                 'debug'        => false,
                 'node_modules' => array(
                     'binaries' => array(
-                        'coffee'     => "{$node_modules}/coffee-script/bin/coffee",
-                        'uglify_js'  => "{$node_modules}/uglify-js/bin/uglifyjs",
-                        'uglify_css' => "{$node_modules}/uglifycss/uglifycss",
+                        'coffee'     => "{{NODE_MODULES}}/coffee-script/bin/coffee",
+                        'uglify_js'  => "{{NODE_MODULES}}/uglify-js/bin/uglifyjs",
+                        'uglify_css' => "{{NODE_MODULES}}/uglifycss/uglifycss",
                     ),
                 ),
             ),
@@ -119,6 +119,17 @@ class FilterManager
 
         if (!isset($this->filter_factories[$name])) {
             throw new Exception("Unknown filter named '{$name}'.");
+        }
+
+        if (isset($this->options['node_modules']['binaries'])) {
+            $binaries = &$this->options['node_modules']['binaries'];
+            foreach ($binaries as $filter_name => $binary_path) {
+                $binaries[$filter_name] = str_replace(
+                    '{{NODE_MODULES}}',
+                    $this->options['filters']['node_modules']['path'],
+                    $binary_path
+                );
+            }
         }
 
         $filter_factory       = $this->filter_factories[$name];

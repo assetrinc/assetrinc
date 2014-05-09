@@ -32,7 +32,7 @@ class FilterManager
 
         if (empty($options['filters']['node_modules']['path'])) {
             $options['filters']['node_modules']['path']
-                = __DIR__ . "/../../../../../../node_modules";
+                = __DIR__ . "/../../../../../node_modules";
         }
 
         $node_modules = $options['filters']['node_modules']['path'];

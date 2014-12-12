@@ -12,6 +12,7 @@ namespace Assetrinc;
 
 use ArrayObject;
 use DateTime;
+use Exception;
 
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
@@ -21,6 +22,9 @@ class AssetService
 {
     private $url_prefix;
     private $cache_dir;
+    private $version_loaded;
+    private $version_hash;
+    private $version_file;
     private $path;
     private $tag_renderer_manager;
     private $filter_manager;
@@ -41,16 +45,20 @@ class AssetService
 
         $options = array_merge(
             array(
-                'debug'     => false,
-                'cache_dir' => null,
+                'debug'         => false,
+                'cache_dir'     => null,
+                'version_hash'  => null,
+                'version_file'  => null,
             ),
             $options
         );
 
-        $this->path       = $paths;
-        $this->url_prefix = $url_prefix;
-        $this->options    = $options;
-        $this->cache_dir  = $options['cache_dir'];
+        $this->path         = $paths;
+        $this->url_prefix   = $url_prefix;
+        $this->options      = $options;
+        $this->cache_dir    = $options['cache_dir'];
+        $this->version_hash = $options['version_hash'];
+        $this->version_file = $options['version_file'];
 
         if (!empty($options['filter_manager'])) {
             $this->filter_manager = $options['filter_manager'];
@@ -175,11 +183,38 @@ class AssetService
         $contents = $collection->dump();
 
         if ($cache_path) {
-            mkdir(dirname($cache_path), 0777, true);
+            $dir_path = dirname($cache_path);
+            if (!file_exists($dir_path)) {
+                mkdir($dir_path, 0777, true);
+            }
             file_put_contents($cache_path, $contents);
         }
 
         return $contents;
+    }
+
+    private function getVersionHash()
+    {
+        if ($this->version_loaded) {
+            return $this->version_hash;
+        }
+
+        if ($this->version_hash) {
+            $this->version_loaded = true;
+            return $this->version_hash;
+        }
+
+        if ($this->version_file) {
+            $lines = file($this->version_file);
+            if (false === $lines) {
+                throw new Exception("Version file '{$this->version_file}' could not be read.");
+            } elseif (empty($lines[0])) {
+                throw new Exception("Version file '{$this->version_file}' is invalid.");
+            }
+            $this->version_hash = trim($lines[0]);
+        }
+
+        return $this->version_hash;
     }
 
     private function getCacheFilePath($name)
@@ -194,9 +229,11 @@ class AssetService
         $cache_file_path = str_replace(
             array(
                 "{{LAST_MODIFIED}}",
+                "{{VERSION_HASH}}",
             ),
             array(
                 $asset['last_modified'],
+                $this->getVersionHash(),
             ),
             $this->cache_dir
         );
@@ -209,9 +246,11 @@ class AssetService
         $url_prefix = str_replace(
             array(
                 "{{LAST_MODIFIED}}",
+                "{{VERSION_HASH}}",
             ),
             array(
                 $asset['last_modified'],
+                $this->getVersionHash(),
             ),
             $this->url_prefix
         );

@@ -20,7 +20,6 @@ class Symfony extends ResponseAdapter
 {
     public function getResponse($name, array $options = array())
     {
-        $expires = new DateTime("now + 12 months");
         $service = $this->getAssetService();
 
         $response = new Response(

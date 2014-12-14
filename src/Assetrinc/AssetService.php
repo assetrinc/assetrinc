@@ -109,16 +109,6 @@ class AssetService
         $sprocketeer = $this->getSprocketeer();
         $assets      = $sprocketeer->getPathInfoFromManifest($name, $read_manifest);
 
-        if (!$read_manifest) {
-            $max        = 0;
-            $all_assets = $sprocketeer->getPathInfoFromManifest($name, true);
-            foreach ($all_assets as $asset) {
-                $max = max($max, $asset['last_modified']);
-            }
-
-            $assets[0]['last_modified'] = $max;
-        }
-
         return $assets;
     }
 
@@ -129,9 +119,18 @@ class AssetService
 
     public function getLastModified($name)
     {
-        $asset = $this->getAssetsPathInfo($name, ($read_manifest = true));
+        if ($this->options['debug']) {
+            $assets = $this->getAssetsPathInfo($name, false);
+            $last_modified = $assets[0]['last_modified'];
+        } else {
+            $last_modified = 0;
+            $assets = $this->getAssetsPathInfo($name, true);
+            foreach ($assets as $asset) {
+                $last_modified = max($last_modified, $asset['last_modified']);
+            }
+        }
 
-        return new DateTime("@{$asset[0]['last_modified']}");
+        return new DateTime("@{$last_modified}");
     }
 
     public function getContent($name)

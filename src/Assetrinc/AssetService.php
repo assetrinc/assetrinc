@@ -176,7 +176,10 @@ class AssetService
             array(
                 $asset['last_modified'],
             ),
-            $this->url_prefix
+            (is_callable($this->url_prefix)
+                ? call_user_func($this->url_prefix)
+                : $this->url_prefix
+            )
         );
 
         return "{$url_prefix}/{$asset['sprocketeer_path']}";

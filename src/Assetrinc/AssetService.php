@@ -25,6 +25,7 @@ class AssetService
     private $filter_manager;
     private $content_type_manager;
     private $options;
+    private $known_assets;
 
     private $sprocketeer;
 
@@ -49,6 +50,10 @@ class AssetService
         $this->url_prefix = $url_prefix;
         $this->options    = $options;
 
+        if (!array_key_exists('bypass_known_assets', $this->options)) {
+            $this->options['bypass_known_assets'] = $options['debug'];
+        }
+
         if (!empty($options['filter_manager'])) {
             $this->filter_manager = $options['filter_manager'];
         } else {
@@ -68,6 +73,11 @@ class AssetService
         }
     }
 
+    public function getUnprefixedService()
+    {
+        return new self($this->path, '', $this->options);
+    }
+
     private function getSprocketeer()
     {
         if (null !== $this->sprocketeer) {
@@ -81,14 +91,22 @@ class AssetService
 
     private function generateTag($name, $type)
     {
-        $manifest_parser = $this->getSprocketeer();
-
         $renderer = $this->tag_renderer_manager->getRenderer($type);
 
-        $assets    = $this->getAssetsPathInfo($name, $this->options['debug']);
-        $html_list = array();
-        foreach ($assets as $asset) {
-            $html_list[] = $renderer($this->getPrefixedUrl($asset));
+        if (!$this->options['bypass_known_assets']
+            && $known_assets = $this->getKnownAssets()
+        ) {
+            if (!array_key_exists($name, $known_assets)) {
+                throw new Exception("'{$name}' was not found in the 'known_assets' config.");
+            }
+
+            $html_list = [$renderer($this->getKnownAssetPrefixedUrl($name))];
+        } else {
+            $assets    = $this->getAssetsPathInfo($name, $this->options['debug']);
+            $html_list = array();
+            foreach ($assets as $asset) {
+                $html_list[] = $renderer($this->getAssetPrefixedUrl($asset));
+            }
         }
 
         return implode("\n", $html_list);
@@ -110,6 +128,14 @@ class AssetService
         $assets      = $sprocketeer->getPathInfoFromManifest($name, $read_manifest);
 
         return $assets;
+    }
+
+    public function getAssetPathInfo($name)
+    {
+        $sprocketeer = $this->getSprocketeer();
+        $assets      = $sprocketeer->getPathInfoFromManifest($name, false);
+
+        return $assets[0];
     }
 
     public function getContentType($name)
@@ -149,7 +175,13 @@ class AssetService
                 }
             }
 
-            $prefixed_url = $this->getPrefixedUrl($asset);
+            if (!empty($this->options['disabled_filters'])) {
+                foreach ($this->options['disabled_filters'] as $disable_filter) {
+                    unset($filters[$disable_filter]);
+                }
+            }
+
+            $prefixed_url = $this->getAssetPrefixedUrl($asset);
 
             $file_asset = new FileAsset(
                 $asset['absolute_path'],
@@ -166,7 +198,25 @@ class AssetService
         return $collection->dump();
     }
 
-    private function getPrefixedUrl(array $asset)
+    public function getKnownAssets()
+    {
+        if (null !== $this->known_assets) {
+            return $this->known_assets;
+        }
+
+        if (empty($this->options['known_assets'])) {
+            return $this->known_assets = array();
+        }
+
+        $this->known_assets = array_combine(
+            $this->options['known_assets'],
+            $this->options['known_assets']
+        );
+
+        return $this->known_assets;
+    }
+
+    private function getAssetPrefixedUrl(array $asset)
     {
         $url_prefix = str_replace(
             array(
@@ -182,6 +232,17 @@ class AssetService
         );
 
         return "{$url_prefix}/{$asset['sprocketeer_path']}";
+    }
+
+    private function getKnownAssetPrefixedUrl($sprocketeer_path)
+    {
+        $url_prefix =
+            (is_callable($this->url_prefix)
+                ? call_user_func($this->url_prefix)
+                : $this->url_prefix
+            );
+
+        return "{$url_prefix}/{$sprocketeer_path}";
     }
 
     public function getTagRendererManager()

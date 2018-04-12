@@ -8,10 +8,10 @@
         "php",
         "assets"
     ],
-    "dependencies" : {
-        "coffee-script" :  "1.7.x",
-        "uglify-js"     :  "2.4.x",
-        "uglifycss"     :  "0.0.8"
+    "dependencies": {
+        "coffee-script": "1.7.x",
+        "uglify-js": "2.6.x",
+        "uglifycss": "0.0.8"
     },
     "license": "MIT",
     "engines": {
